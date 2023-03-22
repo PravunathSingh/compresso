@@ -1,12 +1,11 @@
-import { Button, FileButton, Image, Select, TextInput } from '@mantine/core';
-import React from 'react';
+import { Button, FileButton, Image } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
+import React from 'react';
 import Compressor from 'compressorjs';
 import { useMutation } from 'react-query';
 import axios from 'axios';
-import { saveAs } from 'file-saver';
 
-const UploadAfterCompressing = () => {
+const CompressionUsingCloudinary = () => {
   const [file, setFile] = React.useState<File | null>(null);
   const [isCompressing, setIsCompressing] = React.useState(false);
   const [compressedFile, setCompressedFile] = React.useState<File | null>(null);
@@ -24,7 +23,7 @@ const UploadAfterCompressing = () => {
     const formData = new FormData();
     formData.append('image', compressedFile as File);
     return axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/upload`,
+      `${process.env.NEXT_PUBLIC_API_URL}/cloudinary`,
       formData,
       config
     );
@@ -34,10 +33,7 @@ const UploadAfterCompressing = () => {
     uploadImageHandler.mutate(file as File, {
       onSuccess: (res) => {
         // get the compressed image from the public folder and set it as the src
-        setServerCompressedSrc(res.data.imageUrl);
-        // open the image in a new tab and download it
-
-        saveAs(res.data.imageUrl, 'compressed-image');
+        console.log(res.data);
       },
     });
   };
@@ -80,7 +76,7 @@ const UploadAfterCompressing = () => {
   return (
     <div>
       <h3 className='text-lg font-medium mb-6 text-center'>
-        Compression on both client and server side
+        Compression using Cloudinary
       </h3>
       <div className='mb-6 max-w-sm mx-auto'>
         <div className='max-w-max mx-auto'>
@@ -176,4 +172,4 @@ const UploadAfterCompressing = () => {
   );
 };
 
-export default UploadAfterCompressing;
+export default CompressionUsingCloudinary;

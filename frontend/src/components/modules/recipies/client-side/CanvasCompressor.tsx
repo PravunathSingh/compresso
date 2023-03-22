@@ -26,6 +26,7 @@ const imgTypes = [
 
 const CanvasCompressor = () => {
   const [file, setFile] = React.useState<File | null>(null);
+  const [isCompressing, setIsCompressing] = React.useState(false);
   const [compressedFile, setCompressedFile] = React.useState<File | null>(null);
   const [compressedSrc, setCompressedSrc] = React.useState<string | null>(null);
 
@@ -42,6 +43,7 @@ const CanvasCompressor = () => {
 
   const compressImage = form.handleSubmit(async (data) => {
     if (file) {
+      setIsCompressing(true);
       try {
         const compressedFile = await compressImageWithCanvas(
           file,
@@ -50,6 +52,7 @@ const CanvasCompressor = () => {
         );
         setCompressedFile(compressedFile);
         setCompressedSrc(URL.createObjectURL(compressedFile));
+        setIsCompressing(false);
       } catch (error) {
         showNotification({
           title: 'Error',
@@ -120,7 +123,13 @@ const CanvasCompressor = () => {
                 )}
               />
               <div className='max-w-max mx-auto flex items-center flex-wrap gap-y-4'>
-                <Button type='submit' disabled={!file}>
+                <Button
+                  type='submit'
+                  disabled={!file}
+                  loading={isCompressing}
+                  loaderPosition='right'
+                  loaderProps={{ color: 'white' }}
+                >
                   Compress Image
                 </Button>
                 <Button

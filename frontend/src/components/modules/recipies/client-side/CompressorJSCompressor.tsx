@@ -31,6 +31,7 @@ const schema = yup.object().shape({
 
 const CompressorJSCompressor = () => {
   const [file, setFile] = React.useState<File | null>(null);
+  const [isCompressing, setIsCompressing] = React.useState(false);
   const [compressedFile, setCompressedFile] = React.useState<File | null>(null);
   const [compressedSrc, setCompressedSrc] = React.useState<string | null>(null);
 
@@ -48,6 +49,7 @@ const CompressorJSCompressor = () => {
 
   const compressImage = form.handleSubmit(async (data) => {
     if (file) {
+      setIsCompressing(true);
       try {
         new Compressor(file, {
           quality: data.quality,
@@ -61,6 +63,7 @@ const CompressorJSCompressor = () => {
             });
             setCompressedFile(compressedFile);
             setCompressedSrc(URL.createObjectURL(compressedFile));
+            setIsCompressing(false);
           },
         });
       } catch (error) {
@@ -170,7 +173,13 @@ const CompressorJSCompressor = () => {
             )}
           />
           <div className='max-w-max mx-auto flex items-center flex-wrap gap-y-4'>
-            <Button type='submit' disabled={!file}>
+            <Button
+              type='submit'
+              disabled={!file}
+              loading={isCompressing}
+              loaderPosition='right'
+              loaderProps={{ color: 'white' }}
+            >
               Compress Image
             </Button>
             <Button

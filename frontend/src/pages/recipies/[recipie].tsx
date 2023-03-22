@@ -1,10 +1,8 @@
 import ClientSideRecipies from '@/components/modules/recipies/client-side/ClientSideRecipies';
 import ServerSideRecipies from '@/components/modules/recipies/server-side/ServerSideRecipies';
+import ThirdPartRecipies from '@/components/modules/recipies/third-party/ThirdPartRecipies';
 import SeoHeader from '@/components/seo/SeoHeader';
 import Header from '@/components/ui/Header';
-import { compressImageWithCanvas } from '@/utils/canvasCompressor';
-import { Button, FileButton } from '@mantine/core';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -31,6 +29,7 @@ const RecipiePage = () => {
 
           {recipie === 'client-side' && <ClientSideRecipies />}
           {recipie === 'server-side' && <ServerSideRecipies />}
+          {recipie === 'third-party' && <ThirdPartRecipies />}
         </div>
       </main>
     </>
