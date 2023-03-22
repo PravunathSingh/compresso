@@ -47,13 +47,7 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
 
   await sharp(buffer).webp({ quality: 50 }).toFile(`./uploads/${fileName}`);
 
-  const resImage = await cloudinary.v2.uploader.upload(
-    `./uploads/${fileName}`,
-    {
-      public_id: `${fileName}`,
-    }
-  );
-  const imageUrl = resImage.secure_url;
+  const imageUrl = `https://compresso.onrender.com/uploads/${fileName}`;
 
   res.status(200).json({ imageUrl });
 });
