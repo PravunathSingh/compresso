@@ -35,6 +35,7 @@ const UploadAfterCompressing = () => {
       onSuccess: (res) => {
         // get the compressed image from the public folder and set it as the src
         setServerCompressedSrc(res.data.imageUrl);
+        console.log(res.data);
         // open the image in a new tab and download it
 
         saveAs(res.data.imageUrl, 'compressed-image');

@@ -45,11 +45,27 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
 
   const fileName = `${timeStamp}-${originalname}.webp`;
 
-  await sharp(buffer).webp({ quality: 50 }).toFile(`./uploads/${fileName}`);
+  try {
+    await sharp(buffer).webp({ quality: 50 }).toFile(`./uploads/${fileName}`);
+    const resImage = await cloudinary.v2.uploader.upload(
+      `./uploads/${fileName}`,
+      {
+        public_id: `${fileName}`,
+      }
+    );
 
-  const imageUrl = `https://compresso.onrender.com/uploads/${fileName}`;
+    const imageUrl = resImage.secure_url;
+    const url = cloudinary.v2.image(imageUrl, {
+      width: 500,
+      height: 500,
+      crop: 'cover',
+      quality: 'eco',
+    });
 
-  res.status(200).json({ imageUrl });
+    res.status(200).json({ imageUrl, url });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // app.post('/api/cloudinary', upload.single('image'), async (req, res) => {
