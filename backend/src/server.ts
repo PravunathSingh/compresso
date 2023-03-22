@@ -27,6 +27,10 @@ const upload = multer({ storage });
 
 app.use(express.static('./uploads'));
 
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 app.post('/api/upload', upload.single('image'), async (req, res) => {
   fs.access('./uploads', (err) => {
     if (err) {
