@@ -59,6 +59,9 @@ console.log('port', port);
 var storage = multer_1.default.memoryStorage();
 var upload = (0, multer_1.default)({ storage: storage });
 app.use(express_1.default.static('./uploads'));
+app.get('/', function (req, res) {
+    res.send('Hello World!');
+});
 app.post('/api/upload', upload.single('image'), function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var file, _a, buffer, originalname, timeStamp, fileName, resImage, imageUrl;
     return __generator(this, function (_b) {
