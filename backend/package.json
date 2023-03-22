@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start:dev": "npx nodemon",
-    "build": "yarn && rimraf ./build && tsc",
+    "build": "tsc",
     "start": "npm run build && node build/server.js"
   },
   "dependencies": {
